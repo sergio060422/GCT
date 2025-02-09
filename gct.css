@@ -1,0 +1,28 @@
+* {
+    margin: 0px;
+}
+.node {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    text-align: center;
+}
+#screen {
+    background-color: aliceblue;
+    border-style: solid;
+    border-radius: 5px;
+}
+.node_number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+.nodeform {
+   cursor: pointer;
+   
+}
