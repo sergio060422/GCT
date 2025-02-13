@@ -5,14 +5,24 @@
     width: 50px;
     height: 50px;
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 2%;
+    left: 11%;
     text-align: center;
 }
-#screen {
+#screen_con {
+    display: flex;
+    width: 100%;
+}
+.screen {
     background-color: aliceblue;
     border-style: solid;
     border-radius: 5px;
+    border-width: 2px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 1%;
+    display: flex;
 }
 .node_number {
     position: absolute;
@@ -24,5 +34,37 @@
 }
 .nodeform {
    cursor: pointer;
-   
+}
+textarea::placeholder {
+    font-style: italic;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#adlist {
+    display: block;
+    font-size: 16px;
+    word-spacing: 10px;
+    resize: none;
+    width: 80px;
+    height: 120px;
+    text-align: center;
+    text-indent: 0;
+    overflow: inherit;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+#newnode {
+    margin-bottom: 5px;
+}
+#node_panel, #adlist_panel {
+    position: relative;
+    left: 6%;
+}
+label {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
 }

@@ -6,8 +6,11 @@
         <title> GCT </title>
     </head>
     <body>
-        <canvas id="screen" width="800px" height="400px"></canvas>
-        <div class="node">
+        <div id = "screen_con">
+            <canvas class="screen"></canvas>
+        </div>
+        
+        <div class="node" style="display: none">
             <canvas class="nodeform" width="50px" height="50px"></canvas>
             <h1 class="node_number"></h1>
         </div>
@@ -19,13 +22,12 @@
                     <button id="send_node"> Send </button>
                 </div>
             </div>
-            <div id="edge_panel">
-                <button id="newedge"> Create Edge </button>
-                <div id="label_panel" style="display: none">
-                    <input id="nodeA" type="number">
-                    <input id="nodeB" type="number">
-                    <button id="send_edge" style="display: block"> Send</button>
-                </div>
+            <div id="adlist_panel">
+                <textarea id="adlist" placeholder="Edge
+List"></textarea>
+                <button id="submit">
+                    Draw
+                </button>
             </div>
         </div>
         

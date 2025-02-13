@@ -1,14 +1,31 @@
-function main(){
-   let screen = document.querySelector("#screen");
-   let canvas = screen.getContext("2d");
+function main(){ 
+   
    let new_node = document.querySelector("#newnode");
    let new_edge = document.querySelector("#newedge");
    let send_node = document.querySelector("#send_node");
-   let send_edge = document.querySelector("#send_edge");
-   let edges = [];
-   let node_list = new Map();
+   let screen_con = document.querySelector("#screen_con");
+   let body = document.querySelector("body");
+   let node_list = new Map(), edges = [];
+   let per = screen_con.offsetWidth * 90 / 100;
+   let perx = screen_con.offsetWidth * 6 / 100;
+   let pery = body.offsetHeight * 2 / 100;
+   let adlist = document.querySelector("#adlist");
+   
+   screen_con.innerHTML = "<canvas class=screen width=" + per + "px" + " height=400px></canvas>"
+   let screen = screen_con.firstChild;
+   let canvas = screen.getContext("2d");
     
    function create_node(node_name){
+        if(node_list[node_name]){
+            let nd = document.getElementById(node_name)
+            let ndf = nd.firstChild;
+            let canvas2 = ndf.getContext('2d');
+            canvas2.beginPath();
+            canvas2.arc(25, 25, 20, Math.PI * 2, false);
+            canvas2.fill();
+            return;
+        }
+       
         let node = document.createElement('div');
         let numlab = document.createElement('h1');
         let body = document.getElementsByTagName('body')[0]; 
@@ -23,6 +40,12 @@ function main(){
         canvas2.arc(25, 25, 20, Math.PI * 2, false);
         canvas2.fill();
         
+        let lx = perx + 50, rx = screen_con.offsetWidth - perx - 50;
+        let ly = pery + 50, ry = screen_con.offsetHeight - pery - 50; 
+        let picked = 0; 
+        
+        node.style.left = rand(lx, rx) + "px";
+        node.style.top = rand(ly, ry) + "px";
         node.className = "node";
         node.id = node_name;
         node_list[node_name] = 1;
@@ -30,20 +53,78 @@ function main(){
         numlab.textContent = node_name;
         node.appendChild(numlab);
         body.appendChild(node);
-
+        
+        function select(){
+            canvas2.clearRect(0, 0, 50, 50);
+            canvas2.beginPath();
+            canvas2.arc(25, 25, 25, Math.PI * 2, false);
+            canvas2.fill();
+        }
+        function unselect(){
+            canvas2.clearRect(0, 0, 50, 50);
+            canvas2.beginPath();
+            canvas2.arc(25, 25, 20, Math.PI * 2, false);
+            canvas2.fill();
+        } 
+       
         function pick(e){
+           if(picked){
+               return;
+           }
+           picked = 1;
            pos = node.getBoundingClientRect();
            inix = (e.clientX - pos.left);
            iniy = (e.clientY - pos.top);
-           document.addEventListener("mousemove", move);
+      
+           node.removeEventListener("click", pick);
+           select();
+           document.addEventListener("click", move);
+        }
+       function inside(x, y){
+           let pos = screen.getBoundingClientRect();
+           let xp = pos.left, yp = pos.top;
+           let tp = [-1, -1];
+           
+           if(x > xp + inix && x < xp + per - (55 - inix)){
+               tp[0] = x - inix;
+           }
+           else if(x > xp && x < xp + per){
+               if(x > xp + inix){
+                   tp[0] = xp + per - 48;
+               }
+               else{
+                   tp[0] = xp + 3;
+               }
+           }
+           if(y > yp + iniy && y < yp + 400 - (55 - iniy)){
+               tp[1] = y - iniy;
+           }
+           else if(y > yp && y < yp + 400){
+               if(y > yp + iniy){
+                   tp[1] = yp + 400 - 48;
+               }
+               else{
+                   tp[1] = yp + 3;
+               }
+           }
+           return tp;
+           
        }
        function move(e){
-           let tox = e.clientX - inix;
-           let toy = e.clientY - iniy;
-
-           node.style.left = tox;
-           node.style.top = toy;
-           canvas.clearRect(0, 0, 800, 400);
+           if(picked == 1){
+               picked = 2;
+               return;
+           }
+           let tp = inside(e.clientX, e.clientY);
+           
+           if(tp[0] == -1 || tp[1] == -1){
+               drop();
+               return;
+           }
+           
+           node.style.left = tp[0];
+           node.style.top = tp[1];
+           canvas.clearRect(0, 0, per, 400);
            
            for(let i = 0; i < edges.length; i++){
                 let u = edges[i][0];
@@ -51,14 +132,16 @@ function main(){
                
                 make_edge(u, v);
            }
+           drop();
        }
        function drop(e){
-           document.removeEventListener("mousemove", move);
-
+           picked = 0;
+           unselect();
+           document.removeEventListener("click", move);
+           node.addEventListener("click", pick);
        }
 
-       node.addEventListener("mousedown", pick);
-       node.addEventListener("mouseup", drop);
+       node.addEventListener("click", pick);
     }
     function config_node(){
         let name_panel = document.querySelector('#name_panel');
@@ -67,6 +150,9 @@ function main(){
     function config_edge(){
         let label_panel = document.querySelector('#label_panel');
         label_panel.style.display = "block";
+    }
+    function rand(l, r){
+        return Math.floor(Math.random() * (r - l + 1) + l);
     }
     function valid(n){
         if(Number(n) > 0 && Number(n) < 100){
@@ -81,6 +167,24 @@ function main(){
         let u = nodeA.value;
         let v = nodeB.value;
         
+        create_edge(u, v);
+    }
+    function read_name(){
+        let input = document.querySelector("#idnode");
+        let name = input.value;
+        
+        if(valid(name)){
+            create_node(name);    
+        }
+    }
+    function create_line(x1, y1, x2, y2){
+        canvas.beginPath()
+        canvas.moveTo(x1 - perx, y1 - pery)
+        canvas.globalAlpha = "0.5";
+        canvas.lineTo(x2 - perx, y2 - pery)
+        canvas.stroke()
+    }
+    function create_edge(u, v, w){
         if(!valid(u)){
             return;    
         }
@@ -88,46 +192,48 @@ function main(){
             return;    
         }
         
-        if(!node_list[u]){
-            create_node(u);
-        }
-        if(!node_list[v]){
-            create_node(v);
-        }
-        
-        create_edge(u, v);
+        create_node(u);
+        create_node(v);
+        make_edge(u, v, w);
     }
-    function read_name(){
-        let input = document.querySelector("#idnode");
-        let name = input.value;
-        
-        if(valid(name) && !node_list[name]){
-            create_node(name);    
-        }
-    }
-    function create_line(x1, y1, x2, y2){
-        requestAnimationFrame(create_line)
-        canvas.beginPath()
-        canvas.moveTo(x1, y1)
-        canvas.lineTo(x2, y2)
-        canvas.stroke()
-    }
-    function create_edge(u, v){
-        edges.push([u, v]);
-        make_edge(u, v);
-    }
-    function make_edge(u, v){
+    function make_edge(u, v, w){
         let nodeU = document.getElementById(u + "");
         let nodeV = document.getElementById(v + "");
         let posU = nodeU.getBoundingClientRect();
         let posV = nodeV.getBoundingClientRect();
+        let lab = document.createElement("label");
+        screen_con.appendChild(lab);
+        lab.textContent = w;
+        lab.style.left = (posU.left + posV.left + 35) / 2;
+        lab.style.top = (posU.top + posV.top + 33) / 2;
         
-        create_line(posU.left + 25, posU.top + 25, posV.left + 25, posV.top + 25);
+        create_line(posU.left + 35, posU.top + 25, posV.left + 35, posV.top + 25);
     }
+    function read_list(){
+        let adlist = document.querySelector("#adlist");
+        let list = adlist.value.split('\n');
+        let nodes = document.querySelectorAll(".nodeform");
+        
+        canvas.clearRect(0, 0, 1000, 1000);
+        for(let i = 0; i < nodes.length; i++){
+            let cv = nodes[i].getContext('2d');
+            cv.clearRect(0, 0, 100, 100)
+        }
+        edges = [];
+        
+        for(let i = 0; i < list.length; i++){
+            let pair = list[i].split(" ");
+            console.log(pair[2]);
+            if(valid(pair[0]) && valid(pair[1]) && pair.length <= 3){
+                create_edge(pair[0], pair[1], pair[2])
+                edges.push([pair[0], pair[1]], pair[2])
+            }
+        }
+    }
+    
     new_node.addEventListener('click', config_node)
-    new_edge.addEventListener('click', config_edge)
-    send_edge.addEventListener('click', read_edge)
     send_node.addEventListener('click', read_name)
+    adlist.addEventListener('input', read_list)
 }
 
 
