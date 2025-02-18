@@ -3,7 +3,8 @@
     height: 40px;
 }
 .node_number {
-    font-size: 20px;
+    font-size: 18px;
+    
 }
 .node_number, .nodeform {
     pointer-events: none;

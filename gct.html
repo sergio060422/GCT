@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="gct.js"></script>
+        <link rel="stylesheet" href="gct.css">
+        <link rel="stylesheet" href="phone.css" media="(max-width: 600px)">
+        <title> GCT </title>
+    </head>
+    <body>
+        <div id="all">
+        <div id = "screen_con">
+            <canvas class="screen"></canvas>
+        </div>
+        
+        <div class="node" style="display: none">
+            <canvas class="nodeform" width="50px" height="50px"></canvas>
+            <h1 class="node_number"></h1>
+        </div>
+        <div id="draw_panel">
+            
+            <div id="adlist_panel">
+                <textarea id="adlist" placeholder="Edge
+List" type="number"></textarea>
+            </div>
+            <div id="node_panel">
+              <img id="newnode" src="Images/button-add-svgrepo-com.svg">
+            </div>
+        </div>
+        </div>
+        <div id="prompt">
+            <label id="ins">Set the Node number </label>
+            <hr id="hp">
+            <input type="number" id="idnode">
+            <div id="bc">
+            <button id="cancel"> Cancel</button>
+            <button id="ok">Confirm</button>
+            </div>
+        </div>
+  
+    </body>
+
+</html>

@@ -13,11 +13,15 @@
     display: flex;
     width: 100%;
 }
+body{
+  background-color: rgb(12, 12, 15);
+}
 .screen {
-    background-color: aliceblue;
+    background-color: rgb(30, 30, 30);
     border-style: solid;
     border-radius: 5px;
     border-width: 1px;
+    border-color: gray;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
@@ -42,6 +46,9 @@ textarea::placeholder {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+textarea {
+  color: white;
+}
 #adlist {
     display: block;
     font-size: 16px;
@@ -52,23 +59,83 @@ textarea::placeholder {
     text-align: center;
     text-indent: 0;
     overflow: inherit;
-    margin-top: 10px;
+   
     margin-bottom: 5px;
 }
 #newnode {
-    margin-bottom: 5px;
+    
+    margin-top: 5px;
+    width: 70px;
+    height: 70px;
+   
 }
-#node_panel, #adlist_panel {
+#node_panel, #adlist_panel{
     position: relative;
-    left: 6%;
+    left: 5%;
+    display: inline-block;
+}
+#adlist_panel {
+  top: 3px;
+}
+#node_panel{
+   top: -52px;
 }
 .node_number{
     user-select: none;
 }
 @font-face {
     font-family: myFont;
-    src: url(Font/RobotoCondensed-Light.ttf);
+    src: url(Fonts/RobotoCondensed-Light.ttf);
 }
 * {
     font-family: myFont;
+}
+#ins {
+  font-size: 30px;
+  
+  margin-left: 5px;
+}
+#idnode {
+  color: white;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: gray;
+  background-color: rgb(80, 80, 80);
+  margin-left: 2%;
+  font-size: 20px;
+  width: 96%;
+  margin-top: 10px;
+}
+#bc {
+  position: absolute;
+  bottom: 4%;
+  right: 2%;
+}
+#ok, #cancel {
+  text-align: left;
+  font-size: 20px;
+  margin-left: 2px;
+  color: rgb(222, 222, 222);
+  background-color: rgb(80, 80, 80);
+  border-radius: 2px;
+  border-width: 1px;
+  border-style: solid;
+  font-weight: bold;
+}
+
+#prompt{
+    position: absolute;
+    display: none;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    color: rgb(222, 222, 222);
+    z-index: 3;
+    width: 80%;
+    height: 18%;
+    background-color: rgb(50, 50, 50);
+    border-radius: 5px;
+    border-color: gray;
+    border-width: 1px;
+    border-style: solid;
 }

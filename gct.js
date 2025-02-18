@@ -2,12 +2,15 @@ function main(){
    
    let new_node = document.querySelector("#newnode");
    let new_edge = document.querySelector("#newedge");
-   let send_node = document.querySelector("#send_node");
    let screen_con = document.querySelector("#screen_con");
    let body = document.querySelector("body");
    let node_list = new Map(), edges = [];
    let per = screen_con.offsetWidth * 90 / 100;
    let adlist = document.querySelector("#adlist");
+   let prompt = document.getElementById("prompt");
+   let input = document.querySelector("#idnode");
+   let all = document.getElementById("all");
+
    
    screen_con.innerHTML = "<canvas class=screen width=" + per + "px" + " height=400px></canvas>"
    let screen = screen_con.firstChild;
@@ -37,9 +40,7 @@ function main(){
    function create_node(node_name){
         if(node_list[node_name]){
             let nd = document.getElementById(node_name)
-            let ndf = nd.firstChild;
-            let canvas2 = ndf.getContext('2d');
-            draw_circle(canvas2, pcx, pcy, rc, "gray");
+            nd.style.display = "block";
             return;
         }
        
@@ -154,14 +155,6 @@ function main(){
 
        node.addEventListener("click", pick);
     }
-    function config_node(){
-        let name_panel = document.querySelector('#name_panel');
-        name_panel.style.display = "block";
-    }
-    function config_edge(){
-        let label_panel = document.querySelector('#label_panel');
-        label_panel.style.display = "block";
-    }
     function rand(l, r){
         return Math.floor(Math.random() * (r - l + 1) + l);
     }
@@ -181,17 +174,28 @@ function main(){
         create_edge(u, v);
     }
     function read_name(){
-        let input = document.querySelector("#idnode");
         let name = input.value;
         
         if(valid(name)){
-            create_node(name);    
+            create_node(name);
+            cancel();
         }
+        else{
+            input.value = "";
+           
+        }
+    }
+    function cancel(){
+      prompt.style.display = "none";
+      all.style.opacity ="1";
+
+      all.style.pointerEvents = "all";
+      input.value = "";
     }
     function create_line(x1, y1, x2, y2){
         canvas.beginPath()
         canvas.moveTo(x1, y1)
-        canvas.globalAlpha = "0.8";
+        canvas.strokeStyle = "white";
         canvas.lineTo(x2, y2)
         canvas.stroke()
     }
@@ -220,12 +224,11 @@ function main(){
     function read_list(){
         let adlist = document.querySelector("#adlist");
         let list = adlist.value.split('\n');
-        let nodes = document.querySelectorAll(".nodeform");
+        let nodes = document.querySelectorAll(".node");
         
         canvas.clearRect(0, 0, 1000, 1000);
         for(let i = 0; i < nodes.length; i++){
-            let cv = nodes[i].getContext('2d');
-            cv.clearRect(0, 0, 100, 100)
+            nodes[i].style.display = "none";
         }
         edges = [];
         
@@ -238,9 +241,16 @@ function main(){
             }
         }
     }
-    
-    new_node.addEventListener('click', config_node)
-    send_node.addEventListener('click', read_name)
+    function message(){
+       let ok = document.getElementById("ok");
+       let cancelb = document.getElementById("cancel");
+       all.style.pointerEvents = "none";
+       all.style.opacity = "0.3";
+       prompt.style.display = "block";
+       ok.addEventListener("click", read_name);
+       cancelb.addEventListener("click", cancel);
+    }
+    new_node.addEventListener('click', message)
     adlist.addEventListener('input', read_list)
 }
 
