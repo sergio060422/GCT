@@ -7,22 +7,39 @@ function main(){
    let body = document.querySelector("body");
    let node_list = new Map(), edges = [];
    let per = screen_con.offsetWidth * 90 / 100;
-   let perx = screen_con.offsetWidth * 6 / 100;
-   let pery = body.offsetHeight * 2 / 100;
    let adlist = document.querySelector("#adlist");
    
    screen_con.innerHTML = "<canvas class=screen width=" + per + "px" + " height=400px></canvas>"
    let screen = screen_con.firstChild;
    let canvas = screen.getContext("2d");
+   let pos = screen.getBoundingClientRect();
+   let pery = pos.top + 1;
+   let perx = pos.left + 1;
+   let pcx, pcy, val_width = "2", t = "40px";
     
+   if(body.offsetWidth > 600){
+       val_width = "3";
+       t = "48px";
+   }
+
+   function draw_circle(canvas, cx, cy, r, color){
+       canvas.beginPath();
+       canvas.globalAlpha = "1";
+       canvas.arc(cx, cy, r, Math.PI * 2, false);
+       canvas.fill();
+       canvas.lineWidth = val_width;
+       canvas.strokeStyle = color;
+       canvas.beginPath();
+       canvas.globalAlpha = "1";
+       canvas.arc(cx, cy, r + 1, Math.PI * 2, false);
+       canvas.stroke();
+   }
    function create_node(node_name){
         if(node_list[node_name]){
             let nd = document.getElementById(node_name)
             let ndf = nd.firstChild;
             let canvas2 = ndf.getContext('2d');
-            canvas2.beginPath();
-            canvas2.arc(25, 25, 20, Math.PI * 2, false);
-            canvas2.fill();
+            draw_circle(canvas2, pcx, pcy, rc, "gray");
             return;
         }
        
@@ -31,17 +48,10 @@ function main(){
         let body = document.getElementsByTagName('body')[0]; 
         let pos, inix, iniy;
         
-        node.innerHTML = "<canvas class=nodeform width=50px height=50px></canvas>"; 
-        
-        let nodeform = node.firstChild;
-        let canvas2 = nodeform.getContext('2d'); 
-       
-        canvas2.beginPath();
-        canvas2.arc(25, 25, 20, Math.PI * 2, false);
-        canvas2.fill();
+        node.innerHTML = "<canvas class=nodeform width="+t+" height="+t+"></canvas>"; 
         
         let lx = perx + 50, rx = screen_con.offsetWidth - perx - 50;
-        let ly = pery + 50, ry = screen_con.offsetHeight - pery - 50; 
+        let ly = pery + 50, ry = screen_con.offsetHeight - pery - 50;
         let picked = 0; 
         
         node.style.left = rand(lx, rx) + "px";
@@ -54,17 +64,18 @@ function main(){
         node.appendChild(numlab);
         body.appendChild(node);
         
+        pcx = node.offsetWidth / 2, pcy = node.offsetHeight / 2, rc = pcx - 5;
+        let nodeform = node.firstChild;
+        let canvas2 = nodeform.getContext('2d'); 
+        draw_circle(canvas2, pcx, pcy, rc, "gray");
+        
         function select(){
             canvas2.clearRect(0, 0, 50, 50);
-            canvas2.beginPath();
-            canvas2.arc(25, 25, 25, Math.PI * 2, false);
-            canvas2.fill();
+            draw_circle(canvas2, pcx, pcy, rc, "limegreen");
         }
         function unselect(){
             canvas2.clearRect(0, 0, 50, 50);
-            canvas2.beginPath();
-            canvas2.arc(25, 25, 20, Math.PI * 2, false);
-            canvas2.fill();
+            draw_circle(canvas2, pcx, pcy, rc, "gray");
         } 
        
         function pick(e){
@@ -179,12 +190,12 @@ function main(){
     }
     function create_line(x1, y1, x2, y2){
         canvas.beginPath()
-        canvas.moveTo(x1 - perx, y1 - pery)
-        canvas.globalAlpha = "0.5";
-        canvas.lineTo(x2 - perx, y2 - pery)
+        canvas.moveTo(x1, y1)
+        canvas.globalAlpha = "0.8";
+        canvas.lineTo(x2, y2)
         canvas.stroke()
     }
-    function create_edge(u, v, w){
+    function create_edge(u, v){
         if(!valid(u)){
             return;    
         }
@@ -194,20 +205,17 @@ function main(){
         
         create_node(u);
         create_node(v);
-        make_edge(u, v, w);
+        make_edge(u, v);
     }
-    function make_edge(u, v, w){
+    function make_edge(u, v){
         let nodeU = document.getElementById(u + "");
         let nodeV = document.getElementById(v + "");
         let posU = nodeU.getBoundingClientRect();
         let posV = nodeV.getBoundingClientRect();
-        let lab = document.createElement("label");
-        screen_con.appendChild(lab);
-        lab.textContent = w;
-        lab.style.left = (posU.left + posV.left + 35) / 2;
-        lab.style.top = (posU.top + posV.top + 33) / 2;
+        let uw = nodeU.offsetWidth / 2 - perx, uh = nodeU.offsetHeight / 2 - pery;
+        let vw = nodeU.offsetWidth / 2 - perx, vh = nodeU.offsetHeight / 2 - pery;
         
-        create_line(posU.left + 35, posU.top + 25, posV.left + 35, posV.top + 25);
+        create_line(posU.left + uw, posU.top + uh, posV.left + vw, posV.top + vh);
     }
     function read_list(){
         let adlist = document.querySelector("#adlist");
@@ -223,10 +231,10 @@ function main(){
         
         for(let i = 0; i < list.length; i++){
             let pair = list[i].split(" ");
-            console.log(pair[2]);
-            if(valid(pair[0]) && valid(pair[1]) && pair.length <= 3){
-                create_edge(pair[0], pair[1], pair[2])
-                edges.push([pair[0], pair[1]], pair[2])
+         
+            if(valid(pair[0]) && valid(pair[1])){
+                create_edge(pair[0], pair[1])
+                edges.push([pair[0], pair[1]])
             }
         }
     }
