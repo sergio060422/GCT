@@ -13,6 +13,20 @@
     display: flex;
     width: 100%;
 }
+@font-face {
+    font-family: tour;
+    src: url(Fonts/Tourney-Light.otf);
+}
+#hdwin {
+    position: absolute;
+    width: 90%;
+    height: 400px;
+    left: 50%;
+    top: 10%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    display: none;
+}
 body{
   background-color: rgb(12, 12, 15);
 }
@@ -28,60 +42,82 @@ body{
     margin-top: 1%;
     display: flex;
 }
+.title {
+    color: rgb(222, 222, 222);
+    position: relative;
+    font-size: 36px;
+    display: inline-block;
+}
+#tc, #logo {
+    display: inline-block;
+}
+#tc {
+    position: relative;
+    transform: translate(-5px, -60px);
+    padding-left: 10px;
+}
+#logo {
+    position: relative;
+    border-right-style: solid;
+    margin: 10px;
+}
 .node_number {
     position: absolute;
     top: 50%;
     left: 50%;
     cursor: pointer;
     transform: translate(-50%, -50%);
-    color: white;
+    color: rgb(222, 222, 222);
 }
 .nodeform {
    cursor: pointer;
 }
-textarea::placeholder {
-    font-style: italic;
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-textarea {
-  color: white;
+#adlist_panel {
+    width: 100%;
 }
 #adlist {
     display: block;
-    font-size: 16px;
-    word-spacing: 10px;
+    font-size: 24px;
+    word-spacing: 50px;
     resize: none;
-    width: 80px;
-    height: 120px;
-    text-align: center;
     text-indent: 0;
-    overflow: inherit;
-   
     margin-bottom: 5px;
+    width: 100%;
+    padding: 5px;
 }
-#newnode {
-    
-    margin-top: 5px;
-    width: 70px;
-    height: 70px;
-   
+textarea:focus {
+    outline: none;
 }
-#node_panel, #adlist_panel{
-    position: relative;
-    left: 5%;
-    display: inline-block;
-}
-#adlist_panel {
-  top: 3px;
+textarea {
+    background-color: rgb(30, 30, 30);
+    color: rgb(222, 222, 222);
+    border-style: none;
 }
 #node_panel{
-   top: -52px;
+    position: relative;
+    margin-left: 20px;
+    display: inline-block;
+}
+#hdwin {
+    border-style: solid;
+    border-color: rgb(222, 222, 222);
+    border-width: 1px;
+    border-radius: 5px;
+}
+#tit {
+    color: rgb(222, 222, 222);
+    text-align: center;
+}
+#node_panel{
+   top: 5px;
+   left: 0px;
+   cursor: pointer;
 }
 .node_number{
     user-select: none;
+}
+.node {
+    cursor: pointer;
 }
 @font-face {
     font-family: myFont;
@@ -90,9 +126,19 @@ textarea {
 * {
     font-family: myFont;
 }
+.title {
+    font-family: tour;
+    position: relative;
+    font-weight: lighter;
+}
+#tc {
+    border-left-style: solid;
+    border-color: rgb(222, 222, 222);
+    border-width: 1px;
+    top: 20px;
+}
 #ins {
   font-size: 30px;
-  
   margin-left: 5px;
 }
 #idnode {
@@ -117,12 +163,58 @@ textarea {
   margin-left: 2px;
   color: rgb(222, 222, 222);
   background-color: rgb(80, 80, 80);
-  border-radius: 2px;
-  border-width: 1px;
-  border-style: solid;
+  border-style: none;
   font-weight: bold;
+  cursor: pointer;
 }
-
+#gt {
+   width: 100px;
+   position: relative;
+   top: -5px;
+   cursor: pointer;
+}
+@font-face {
+    font-family: light;
+    src: url(Fonts/Tourney-Regular.otf);
+}
+#g1, #c1, #t1 {
+    font-family: light;
+    font-size: 36px;
+}
+.title {
+    font-family: light;
+}
+#g1 {
+    color: red;
+}
+#c1 {
+    color: blue;
+}
+#t1 {
+    color: yellow;
+}
+#sep {
+    margin-bottom: 10px;
+}
+#an {
+    text-align: center;
+}
+#ok {
+    background-color: green;
+}
+#ec {
+    display: none;
+}
+hr {
+    color: rgb(222, 222, 222);
+    
+}
+#et {
+    font-size: 32px;
+    color: rgb(222, 222, 222);
+    font-weight: lighter;
+    margin: 5px;
+}
 #prompt{
     position: absolute;
     display: none;
@@ -131,11 +223,75 @@ textarea {
     transform: translate(-50%, -50%);
     color: rgb(222, 222, 222);
     z-index: 3;
-    width: 80%;
+    width: 30%;
     height: 18%;
     background-color: rgb(50, 50, 50);
     border-radius: 5px;
     border-color: gray;
     border-width: 1px;
     border-style: solid;
+}
+#change {
+    text-align: center;
+}
+#sl {
+    margin-bottom: 10px;
+}
+#graph, #edges {
+    cursor: pointer;
+    color: rgb(222, 222, 222);
+    font-size: 20px;
+    text-align: left;
+    text-indent: 0;
+    padding: 5px 5px 0px 5px;
+    user-select: none;
+}
+#edges {
+    position: relative;
+    left: -3px;
+}
+#graph {
+    border-right: solid;
+    border-right-width: 1px;
+    border-color: rgb(222, 222, 222);
+}
+#sel {
+    border-color: orange;
+    position: relative;
+    top: 1px;
+}
+@keyframes ate{
+    100% {
+        transform: translateX(58px);
+    }
+}
+@keyframes atg {
+    0% {
+        transform: translateX(58px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
+#sel.toedge {
+    animation-name: ate;
+    animation-iteration-count: 1;
+    animation-duration: 0.2s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+#sel.tograph {
+    animation-name: atg;
+    animation-iteration-count: 1;
+    animation-duration: 0.2s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+#sp {
+    display: inline-block;
+    border-color: rgb(222, 222, 222);
+    border-style: solid;
+    border-width: 1px;
+    height: 20px;
+    width: 0px;
 }

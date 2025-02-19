@@ -4,8 +4,34 @@
 }
 .node_number {
     font-size: 18px;
-    
 }
 .node_number, .nodeform {
     pointer-events: none;
+}
+#prompt {
+    width: 80%;
+}
+#adlist_panel {
+    width: 40%;
+    left: 60%;
+}
+#tit {
+    font-size: 20px;
+}
+#adlist {
+    font-size: 20px;
+    word-spacing: 30px;
+}
+.title {
+    font-size: 24px;
+    display: block;
+}
+#g1, #c1, #t1 {
+    font-size: 24px;
+}
+#node_panel {
+    margin-left: 20px;
+}
+#tc {
+    transform: translateY(-30px);
 }

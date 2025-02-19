@@ -1,31 +1,53 @@
 function main(){ 
-   
    let new_node = document.querySelector("#newnode");
    let new_edge = document.querySelector("#newedge");
    let screen_con = document.querySelector("#screen_con");
    let body = document.querySelector("body");
    let node_list = new Map(), edges = [];
-   let per = screen_con.offsetWidth * 90 / 100;
+   let per = screen_con.offsetWidth - 40;
+   let perh = body.offsetHeight - 280;
    let adlist = document.querySelector("#adlist");
    let prompt = document.getElementById("prompt");
    let input = document.querySelector("#idnode");
-   let all = document.getElementById("all");
-
-   
-   screen_con.innerHTML = "<canvas class=screen width=" + per + "px" + " height=400px></canvas>"
+   let all = document.getElementById("all");    
+   if(body.offsetWidth < 600){
+       perh += 40;
+   }
+   screen_con.innerHTML = "<canvas class=screen width=" + per + "px" + " height="+perh+"px"+"></canvas>";
    let screen = screen_con.firstChild;
    let canvas = screen.getContext("2d");
    let pos = screen.getBoundingClientRect();
    let pery = pos.top + 1;
    let perx = pos.left + 1;
-   let pcx, pcy, val_width = "2", t = "40px";
+   let pcx, pcy, val_width = "2", t = "40px", curr = 0;
+   let graph = document.getElementById("graph");
+   let edg = document.getElementById("edges");
+   let logo = document.getElementById("logo");
+   let clogo = logo.getContext('2d');
+   let gt = document.getElementById("gt");
+   adlist.style.height = perh + 22;
+    
+   function draw_logo(){
+       val_width = "1.5";
+       draw_circle(clogo, 45, 15, 13, "blue");
+       draw_circle(clogo, 15, 75, 13, "red");
+       draw_circle(clogo, 75, 75, 13, "yellow");
+       clogo.fillStyle = "white";
+       clogo.font = "lighter 20px myFont";
+       clogo.fillText("C", 39, 22);
+       clogo.fillText("G", 9, 82);
+       clogo.fillText("T", 70, 82);
+       create_line(clogo, 38, 28, 22, 62);
+       create_line(clogo, 52, 28, 68, 62);
+       create_line(clogo, 30, 75, 60, 75);
+   }
     
    if(body.offsetWidth > 600){
        val_width = "3";
        t = "48px";
    }
-
-   function draw_circle(canvas, cx, cy, r, color){
+    
+   function draw_circle(canvas, cx, cy, r, color, flag){
        canvas.beginPath();
        canvas.globalAlpha = "1";
        canvas.arc(cx, cy, r, Math.PI * 2, false);
@@ -38,7 +60,7 @@ function main(){
        canvas.stroke();
    }
    function create_node(node_name){
-        if(node_list[node_name]){
+       if(node_list[node_name]){
             let nd = document.getElementById(node_name)
             nd.style.display = "block";
             return;
@@ -52,7 +74,7 @@ function main(){
         node.innerHTML = "<canvas class=nodeform width="+t+" height="+t+"></canvas>"; 
         
         let lx = perx + 50, rx = screen_con.offsetWidth - perx - 50;
-        let ly = pery + 50, ry = screen_con.offsetHeight - pery - 50;
+        let ly = pery + 50, ry = pery + perh - 50;
         let picked = 0; 
         
         node.style.left = rand(lx, rx) + "px";
@@ -108,12 +130,12 @@ function main(){
                    tp[0] = xp + 3;
                }
            }
-           if(y > yp + iniy && y < yp + 400 - (55 - iniy)){
+           if(y > yp + iniy && y < yp + perh - (55 - iniy)){
                tp[1] = y - iniy;
            }
-           else if(y > yp && y < yp + 400){
+           else if(y > yp && y < yp + perh){
                if(y > yp + iniy){
-                   tp[1] = yp + 400 - 48;
+                   tp[1] = yp + perh - 48;
                }
                else{
                    tp[1] = yp + 3;
@@ -136,7 +158,7 @@ function main(){
            
            node.style.left = tp[0];
            node.style.top = tp[1];
-           canvas.clearRect(0, 0, per, 400);
+           canvas.clearRect(0, 0, per, perh);
            
            for(let i = 0; i < edges.length; i++){
                 let u = edges[i][0];
@@ -191,11 +213,17 @@ function main(){
 
       all.style.pointerEvents = "all";
       input.value = "";
+      let nodes = document.querySelectorAll('.node');
+        
+      for(let i = 0; i < nodes.length; i++){
+           nodes.item(i).style.opacity = "1";
+      }
     }
-    function create_line(x1, y1, x2, y2){
+    function create_line(canvas, x1, y1, x2, y2){
         canvas.beginPath()
         canvas.moveTo(x1, y1)
-        canvas.strokeStyle = "white";
+        canvas.strokeStyle = "rgb(222, 222, 222)";
+        canvas.globalAlpha = "0.8";
         canvas.lineTo(x2, y2)
         canvas.stroke()
     }
@@ -219,7 +247,7 @@ function main(){
         let uw = nodeU.offsetWidth / 2 - perx, uh = nodeU.offsetHeight / 2 - pery;
         let vw = nodeU.offsetWidth / 2 - perx, vh = nodeU.offsetHeight / 2 - pery;
         
-        create_line(posU.left + uw, posU.top + uh, posV.left + vw, posV.top + vh);
+        create_line(canvas, posU.left + uw, posU.top + uh, posV.left + vw, posV.top + vh);
     }
     function read_list(){
         let adlist = document.querySelector("#adlist");
@@ -231,12 +259,15 @@ function main(){
             nodes[i].style.display = "none";
         }
         edges = [];
+        if(!curr){
+            return;
+        }
         
         for(let i = 0; i < list.length; i++){
             let pair = list[i].split(" ");
          
             if(valid(pair[0]) && valid(pair[1])){
-                create_edge(pair[0], pair[1])
+                create_edge(pair[0], pair[1]);
                 edges.push([pair[0], pair[1]])
             }
         }
@@ -244,17 +275,53 @@ function main(){
     function message(){
        let ok = document.getElementById("ok");
        let cancelb = document.getElementById("cancel");
+       let nodes = document.querySelectorAll('.node');
+        
+       for(let i = 0; i < nodes.length; i++){
+           nodes.item(i).style.opacity = "0.55";
+       }
        all.style.pointerEvents = "none";
        all.style.opacity = "0.3";
        prompt.style.display = "block";
        ok.addEventListener("click", read_name);
        cancelb.addEventListener("click", cancel);
     }
+    let cont = document.getElementById("cont");
+    let ec = document.getElementById("ec");
+    let sel = document.getElementById("sel");
+    let p = graph.getBoundingClientRect();
+    sel.style.left = p.left + 3 + "px";
+    sel.style.width = graph.offsetWidth - 8 + "px";
+    function to_edge(){
+        if(!curr){
+            cont.style.display = "none";
+            ec.style.display = "block";
+            adlist.focus();
+            read_list();
+            sel.classList.remove("tograph");
+            sel.classList.add("toedge");
+            curr = 1;
+        }
+    }
+    function to_graph(){
+        if(curr){
+            ec.style.display = "none";
+            cont.style.display = "block";
+            read_list();
+            sel.classList.remove("toedge");
+            sel.classList.add("tograph");
+            curr = 0;
+        }
+    }
+    function to_github(){
+        window.location.replace("https://github.com/sergio060422/GCT");
+    }
     new_node.addEventListener('click', message)
-    adlist.addEventListener('input', read_list)
+    graph.addEventListener('click', to_graph);
+    edg.addEventListener('click', to_edge);
+    gt.addEventListener('click', to_github);
+    console.log(pos.top)
+    draw_logo();
 }
-
-
-
 
 window.addEventListener("load", main)

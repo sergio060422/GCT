@@ -9,35 +9,55 @@
     </head>
     <body>
         <div id="all">
-        <div id = "screen_con">
-            <canvas class="screen"></canvas>
-        </div>
-        
-        <div class="node" style="display: none">
-            <canvas class="nodeform" width="50px" height="50px"></canvas>
-            <h1 class="node_number"></h1>
-        </div>
-        <div id="draw_panel">
-            
-            <div id="adlist_panel">
-                <textarea id="adlist" placeholder="Edge
-List" type="number"></textarea>
+            <div id="tope">
+                <canvas id="logo" height="90px", width="90px"></canvas>
+                <div id="tc">
+                    <h1 class="title" id="g"> <span id="g1">G</span>raph </h1>
+                    <h1 class="title" id="c"> <span id="c1">C</span>reator </h1>
+                    <h1 class="title" id="t"> <span id="t1">T</span>ool </h1>
+                </div>
             </div>
-            <div id="node_panel">
-              <img id="newnode" src="Images/button-add-svgrepo-com.svg">
+            <hr id="sl">
+            <div id="an">
+                <img src="Images/Screenshot_21.png" id="gt">
             </div>
-        </div>
+            <hr id="sep">
+            <div id="change">
+                <label id="graph">Graph</label>
+                <label id="edges">Edges</label>
+                <hr id="sel">
+            </div>
+            <div id="cont">
+            <div id = "screen_con">
+                <canvas class="screen"></canvas>          
+            </div>
+            <div class="node" style="display: none">
+                <canvas class="nodeform" width="50px" height="50px"></canvas>
+                <h1 class="node_number"></h1>
+            </div>
+            <div id="draw_panel">
+                <div id="node_panel">
+                  <img id="newnode" src="Images/button-add-svgrepo-com.svg">
+                </div>
+            </div>
+            </div>
         </div>
         <div id="prompt">
-            <label id="ins">Set the Node number </label>
+            <label id="ins">Node number: </label>
             <hr id="hp">
             <input type="number" id="idnode">
             <div id="bc">
-            <button id="cancel"> Cancel</button>
-            <button id="ok">Confirm</button>
+                <button id="cancel"> Cancel</button>
+                <button id="ok">Confirm</button>
             </div>
         </div>
-  
+        <div id="ec">
+            <h1 id="et">Edges List</h1>
+            <hr>
+            <textarea id=adlist type=number></textarea>
+        </div>
+        
+     
     </body>
 
 </html>
