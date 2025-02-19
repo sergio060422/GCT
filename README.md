@@ -1,2 +1,2 @@
-<h1>A simple Graph Creator Tool :)</h1>
+<h4>A simple Graph Creator Tool :)</h4>
 Try ir here:
