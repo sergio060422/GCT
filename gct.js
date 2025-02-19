@@ -101,6 +101,9 @@ function main(){
         }
         function unselect(){
             canvas2.clearRect(0, 0, 50, 50);
+            graph.style.pointerEvents = "all";
+            edg.style.pointerEvents = "all";
+            gt.style.pointerEvents = "all";
             draw_circle(canvas2, pcx, pcy, rc, "gray");
         } 
        
