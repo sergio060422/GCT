@@ -58,7 +58,6 @@ body{
 }
 #logo {
     position: relative;
-    border-right-style: solid;
     margin: 10px;
 }
 .node_number {
