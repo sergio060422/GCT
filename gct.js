@@ -11,7 +11,7 @@ function main(){
    let input = document.querySelector("#idnode");
    let all = document.getElementById("all");    
    if(body.offsetWidth < 600){
-       perh += 40;
+       //perh += 40;
    }
    screen_con.innerHTML = "<canvas class=screen width=" + per + "px" + " height="+perh+"px"+"></canvas>";
    let screen = screen_con.firstChild;
