@@ -5,6 +5,9 @@
 .node_number {
     font-size: 18px;
 }
+.node {
+    user-select: none;
+}
 .node_number, .nodeform {
     user-select: none;
     pointer-events: none;
