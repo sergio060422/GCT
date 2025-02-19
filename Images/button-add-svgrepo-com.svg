@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+<svg width="50px" height="50px" viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg">
 
 <g fill="none" fill-rule="evenodd" stroke="rgb(222, 222, 222)" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 0)">
 
@@ -10,6 +10,9 @@
 <path d="m6.5 3.5v6.056"/>
 
 <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+<style>
+    
+</style>
 
 </g>
 
