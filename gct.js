@@ -93,6 +93,11 @@ function main(){
         draw_circle(canvas2, pcx, pcy, rc, "gray");
         
         function select(){
+            let ok = document.getElementById("ok");
+            let cancel = document.getElementById("cancel");
+            ok.style.pointerEvents = "none";
+            cancel.style.pointerEvents = "none";
+            gt.style.pointerEvents = "none";
             canvas2.clearRect(0, 0, 50, 50);
             draw_circle(canvas2, pcx, pcy, rc, "limegreen");
         }
